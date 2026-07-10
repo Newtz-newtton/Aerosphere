@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Purpose:
@@ -56,6 +60,31 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationException(
+            MethodArgumentNotValidException exception) {
+
+        Map<String, String> validationErrors = new LinkedHashMap<>();
+
+        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
+
+            validationErrors.put(
+                    error.getField(),
+                    error.getDefaultMessage());
+        }
+
+        ApiResponse<Map<String, String>> response =
+                ApiResponse.<Map<String, String>>builder()
+                        .success(false)
+                        .message("Validation failed.")
+                        .data(validationErrors)
+                        .build();
+
+        return ResponseEntity
+                .badRequest()
+                .body(response);
     }
 
     @ExceptionHandler(Exception.class)

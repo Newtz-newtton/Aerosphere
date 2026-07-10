@@ -1,21 +1,20 @@
 package com.aerosphere.config;
 
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Purpose:
- * Configures OpenAPI (Swagger) documentation for the AeroSphere REST APIs.
+ * Configures the OpenAPI (Swagger) documentation for AeroSphere.
  *
  * Responsibilities:
- * - Provides API metadata.
- * - Enables Swagger UI.
- * - Improves API discoverability and testing.
+ * - Configure API metadata.
+ * - Configure JWT authentication for Swagger.
  *
  * Module:
  * Configuration
@@ -26,17 +25,37 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI aeroSphereOpenAPI() {
 
+        final String securitySchemeName = "Bearer Authentication";
+
         return new OpenAPI()
+
                 .info(new Info()
+
                         .title("AeroSphere API")
-                        .description("Airline Reservation and Operations Platform")
+
                         .version("1.0.0")
+
+                        .description("Airline Reservation and Operations Platform")
+
                         .contact(new Contact()
                                 .name("Newtton Habakuk")
-                                .email("newttonhabakuk.s@gmail.com"))
-                        .license(new License()
-                                .name("MIT License")))
-                .externalDocs(new ExternalDocumentation()
-                        .description("AeroSphere Documentation"));
+                                .email("newttonhabakuk.s@gmail.com")))
+
+                .addSecurityItem(
+                        new SecurityRequirement()
+                                .addList(securitySchemeName))
+
+                .schemaRequirement(
+                        securitySchemeName,
+
+                        new SecurityScheme()
+
+                                .name(securitySchemeName)
+
+                                .type(SecurityScheme.Type.HTTP)
+
+                                .scheme("bearer")
+
+                                .bearerFormat("JWT"));
     }
 }
