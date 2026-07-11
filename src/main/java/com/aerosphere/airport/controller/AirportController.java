@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class AirportController {
 
     private final AirportService airportService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<AirportResponse> createAirport(
@@ -58,6 +60,7 @@ public class AirportController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ApiResponse<AirportResponse> getAirportById(
             @PathVariable Long id) {
@@ -72,6 +75,7 @@ public class AirportController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ApiResponse<AirportResponse> updateAirport(
             @PathVariable Long id,

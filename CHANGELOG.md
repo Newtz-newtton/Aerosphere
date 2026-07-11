@@ -280,7 +280,30 @@ Planned Features
 - Swagger integration.
 
 --------------------------------------------------------------
+## v0.5.0 - Airline Module Complete
 
+### Added
+- Implemented Airline module.
+- Added Airline entity and AirlineStatus enum.
+- Added AirlineRepository.
+- Added AirlineRequest and AirlineResponse DTOs.
+- Added AirlineMapper.
+- Added AirlineService and AirlineServiceImpl.
+- Added AirlineController.
+- Added secured CRUD APIs.
+
+### Improved
+- Reused standardized architecture and exception handling.
+- Verified JWT protection and Swagger integration.
+
+### Verified
+- CRUD operations.
+- Bean Validation.
+- Duplicate airline code validation.
+- Invalid airline handling.
+- PostgreSQL persistence.
+
+--------------------------------------------------------
 
 Maintained By
 
