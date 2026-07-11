@@ -304,6 +304,20 @@ Planned Features
 - PostgreSQL persistence.
 
 --------------------------------------------------------
+## v0.6.0 - Aircraft Module Complete
+
+### Added
+- Aircraft module
+- AircraftServiceImplTest
+- Role-based authorization using @PreAuthorize
+
+### Verified
+- CRUD
+- Validation
+- PostgreSQL
+- Unit testing
+
+-----------------------------------------------
 
 Maintained By
 

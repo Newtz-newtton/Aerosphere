@@ -2,6 +2,7 @@ package com.aerosphere.security;
 
 import com.aerosphere.auth.entity.User;
 import com.aerosphere.auth.repository.UserRepository;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -57,38 +58,45 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token =
                 authorizationHeader.substring(7);
 
-        String email =
-                jwtService.extractUsername(token);
+        try {
 
-        if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+            String email =
+                    jwtService.extractUsername(token);
 
-            Optional<User> user =
-                    userRepository.findByEmail(email);
+            if (email != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            if (user.isPresent() &&
-                    jwtService.isTokenValid(token, email)) {
+                Optional<User> user =
+                        userRepository.findByEmail(email);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                List.of(
-                                        new SimpleGrantedAuthority(
-                                                "ROLE_" + user.get().getRole().name()
-                                        )
-                                )
-                        );
+                if (user.isPresent() &&
+                        jwtService.isTokenValid(token, email)) {
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    List.of(
+                                            new SimpleGrantedAuthority(
+                                                    "ROLE_" + user.get().getRole().name()
+                                            )
+                                    )
+                            );
 
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(authentication);
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
+                    );
+
+                    SecurityContextHolder
+                            .getContext()
+                            .setAuthentication(authentication);
+                }
             }
+
+        } catch (JwtException | IllegalArgumentException exception) {
+
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

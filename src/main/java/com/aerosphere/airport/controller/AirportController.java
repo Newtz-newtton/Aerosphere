@@ -60,7 +60,6 @@ public class AirportController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ApiResponse<AirportResponse> getAirportById(
             @PathVariable Long id) {
@@ -91,6 +90,7 @@ public class AirportController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteAirport(
             @PathVariable Long id) {

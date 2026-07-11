@@ -1,5 +1,6 @@
 package com.aerosphere.config;
 
+import com.aerosphere.security.JwtAccessDeniedHandler;
 import com.aerosphere.security.JwtAuthenticationEntryPoint;
 import com.aerosphere.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -47,8 +49,11 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS))
 
                 .exceptionHandling(exception ->
-                        exception.authenticationEntryPoint(
-                                jwtAuthenticationEntryPoint))
+                        exception
+                                .authenticationEntryPoint(
+                                        jwtAuthenticationEntryPoint)
+                                .accessDeniedHandler(
+                                        jwtAccessDeniedHandler))
 
                 .authorizeHttpRequests(auth -> auth
 
