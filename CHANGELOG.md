@@ -357,6 +357,36 @@ Flight Module
 Phase 7 Completed.
 
 ----------------------------------------------------
+## v0.8.1 - Booking Module (Sprint 1)
+
+### Added
+- Implemented Booking module.
+- Added Booking entity and BookingStatus.
+- Added BookingRepository.
+- Added BookingRequest and BookingResponse DTOs.
+- Added BookingMapper.
+- Added BookingService and BookingServiceImpl.
+- Added BookingController.
+- Integrated ReferenceGenerator.
+- Added secured CRUD APIs.
+- Added unit tests (9/9).
+
+### Improved
+- Implemented JOIN FETCH strategy for relationship loading.
+- Standardized business validation using BusinessException.
+- Reused frozen controller, mapper and service patterns.
+
+### Verified
+- CRUD operations.
+- Bean Validation.
+- Business rule validation.
+- JWT protection.
+- PostgreSQL persistence.
+- Unit test suite.
+
+Phase 8 .1 completed
+---------------------------------------------
+
 
 Maintained By
 
