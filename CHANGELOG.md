@@ -318,6 +318,45 @@ Planned Features
 - Unit testing
 
 -----------------------------------------------
+# v0.7.0 - Flight Module Complete
+
+## Phase
+
+Flight Module
+
+## Added
+
+-   Flight entity and status
+-   Flight repository
+-   Flight request/response DTOs
+-   Flight mapper
+-   Flight service and implementation
+-   Flight controller
+-   Aggregate mapper pattern
+-   Business validation pattern
+-   JOIN FETCH repository pattern
+-   Flight CRUD APIs
+-   Flight unit tests
+
+## Fixed
+
+-   LazyInitializationException by introducing JOIN FETCH repository
+    methods.
+-   Update response mapping after save by reloading relationship graph.
+
+## Tested
+
+-   CRUD APIs
+-   Business validations
+-   Bean validation
+-   PostgreSQL verification
+-   Unit tests (8/8 passed)
+
+## Status
+
+Phase 7 Completed.
+
+----------------------------------------------------
 
 Maintained By
 
