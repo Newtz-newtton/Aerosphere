@@ -48,4 +48,15 @@ public class ReferenceGenerator {
                 .toUpperCase();
     }
 
+    public String generateTicketNumber() {
+
+        return "AS-TKT-"
+                + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
+                + "-"
+                + UUID.randomUUID()
+                .toString()
+                .substring(0, 6)
+                .toUpperCase();
+    }
+
 }

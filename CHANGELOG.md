@@ -387,6 +387,162 @@ Phase 7 Completed.
 Phase 8 .1 completed
 ---------------------------------------------
 
+# CHANGELOG - Phase 8 Sprint 2 (Payment Module)
+
+## Version
+v0.8.2
+
+**Sprint:** Phase 8 – Sprint 2
+**Module:** Payment
+**Status:** Completed, Verified and Frozen
+
+---
+
+## Added
+
+### Payment Domain
+- Implemented Payment entity.
+- Added PaymentStatus enum.
+- Added PaymentMethod enum.
+- Established One-to-One Booking → Payment relationship.
+- Added unique payment reference generation (AS-PAY).
+
+### Repository Layer
+- Added PaymentRepository.
+- Added payment reference lookup methods.
+- Added duplicate payment validation support.
+- Added Booking-based lookup methods.
+- Added JOIN FETCH repository methods to eliminate LazyInitializationException while preserving LAZY loading.
+
+### Service Layer
+- Implemented PaymentService.
+- Implemented PaymentServiceImpl.
+- Added business validation for booking existence.
+- Added duplicate payment prevention.
+- Derived payment amount from Booking.totalFare.
+- Restricted updates to paymentMethod only.
+- Reserved event publishing point for future Kafka integration.
+
+### API Layer
+- Added PaymentRequest.
+- Added PaymentResponse.
+- Added PaymentMapper.
+- Added PaymentController.
+- Integrated standardized ApiResponse wrapper.
+- Applied JWT role-based authorization.
+
+### Shared Components
+- Extended ReferenceGenerator with payment reference generation.
+- Reused GlobalExceptionHandler.
+- Reused BusinessException and ResourceNotFoundException.
+
+---
+
+## Architectural Decisions Frozen
+
+- Booking is the financial source of truth.
+- One Booking can have only one Payment in V1.
+- Client cannot submit payment amount.
+- Payment reference generated internally.
+- Payment status initialized as SUCCESS for V1.
+- Payment amount, booking, reference and payment date are immutable.
+- JOIN FETCH adopted as the repository standard for workflow modules requiring relationship mapping.
+- Kafka integration deferred; event publishing point reserved after successful persistence.
+
+---
+
+## Validation Completed
+
+### Application
+- Spring Boot startup verified.
+- Hibernate entity mapping verified.
+- Payments table generated successfully.
+
+### API Testing
+- 12/12 Swagger API tests passed.
+- CRUD operations verified.
+- Security authorization verified.
+- Duplicate payment prevention verified.
+- Business validation verified.
+- Error handling verified.
+
+### Unit Testing
+- 9/9 service-layer unit tests passed.
+- Repository interactions verified.
+- Business rules verified.
+- Exception scenarios verified.
+
+---
+
+## Fixed During Sprint
+
+- Prevented duplicate payments through service-layer validation.
+- Corrected update workflow by removing duplicate-payment validation from update operations.
+- Applied JOIN FETCH strategy to avoid LazyInitializationException.
+- Verified role-based authorization behavior for ADMIN, STAFF and CUSTOMER.
+
+---
+
+## Project Status
+
+Payment module is production-ready within the V1 architecture and fully aligned with the frozen AeroSphere standards. No architectural deviations were introduced during Sprint 2.
+
+Next milestone: Phase 8 – Sprint 3 (Ticket Module).
+--------------------------------------------------------------------
+# Phase 8 -- Sprint 3 Changelog
+
+## Added
+
+-   Ticket module package structure.
+-   Ticket entity and TicketStatus.
+-   TicketRepository.
+-   TicketRequest and TicketResponse.
+-   TicketMapper.
+-   TicketService and TicketServiceImpl.
+-   TicketController.
+-   Ticket reference generation (`AS-TKT`).
+
+## Enhanced
+
+-   Added `flightNumber` snapshot to Ticket.
+-   Added BookingRepository.findByIdWithUserAndFlight().
+-   Added PaymentRepository.findByBookingId().
+-   Enhanced TicketRepository JOIN FETCH strategy.
+
+## Business Rules
+
+-   Booking must exist.
+-   Payment must exist.
+-   Payment must be SUCCESS.
+-   Prevent duplicate ticket generation.
+-   Capture passenger and flight snapshots.
+
+## Bug Fixes
+
+-   Fixed LazyInitializationException during ticket creation.
+-   Fixed LazyInitializationException during ticket update.
+-   Improved eager fetching without changing business logic.
+
+## Verification
+
+-   Application started successfully.
+-   Swagger endpoints verified.
+-   Hibernate schema validated.
+-   **14/14 Ticket API tests passed.**
+
+## Frozen
+
+-   Ticket entity.
+-   Ticket relationships.
+-   Repository contracts.
+-   DTO contracts.
+-   Mapper responsibilities.
+-   Service orchestration.
+-   Controller pattern.
+-   Business rules.
+-   Security rules.
+---------------------------------------
+
 
 Maintained By
 

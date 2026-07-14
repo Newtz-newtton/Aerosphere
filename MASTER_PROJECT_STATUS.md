@@ -655,4 +655,90 @@ Payment 100%
 feat(booking): implement payment module sprint 2
 
 ---------------------------------
+# Phase 8 -- Sprint 3 Addition (Ticket Management)
+
+## Sprint Status
+
+-   **Status:** Completed
+-   **Verification:** 14/14 API tests passed
+-   **State:** Frozen
+
+## Module Completion
+
+-   Ticket Entity
+-   TicketStatus
+-   TicketRepository
+-   TicketRequest / TicketResponse
+-   TicketMapper
+-   TicketService / TicketServiceImpl
+-   TicketController
+
+## Relationship Registry Update
+
+### Implemented
+
+-   Booking (1) → Ticket (1)
+-   Payment (1) → Ticket (1)
+
+## Entity Registry Update
+
+### Ticket
+
+-   id
+-   ticketNumber
+-   booking
+-   payment
+-   passengerName
+-   flightNumber
+-   ticketStatus
+-   issuedAt
+
+## Repository Registry Update
+
+### TicketRepository
+
+-   existsByTicketNumber()
+-   findByTicketNumber()
+-   findByBookingId()
+-   findAllWithRelationships()
+-   findByIdWithRelationships()
+
+### Enhancements
+
+-   BookingRepository.findByIdWithUserAndFlight()
+-   PaymentRepository.findByBookingId()
+
+## Reference Registry
+
+-   AS-BKG-YYYYMMDD-XXXXXX
+-   AS-PAY-YYYYMMDD-XXXXXX
+-   AS-TKT-YYYYMMDD-XXXXXX
+
+## Workflow Registry
+
+User → Booking → Payment → Ticket
+
+## Testing Registry
+
+-   Application Startup ✅
+-   Hibernate Validation ✅
+-   Swagger Verification ✅
+-   API Testing: **14/14 Passed**
+-   Lazy Loading Fixes Verified ✅
+
+## Frozen Decisions
+
+-   Ticket stores passengerName snapshot.
+-   Ticket stores flightNumber snapshot.
+-   Ticket generation requires successful payment.
+-   One ticket per booking.
+-   Repository fetch strategy frozen.
+-   API contract frozen.
+
+## Next Sprint
+
+Phase 8 -- Sprint 4: Check-in Module
+---------------------------------------
+
+
 Last Updated: Payment Module Sprint 2 completed. Ready for Sprint 3.
