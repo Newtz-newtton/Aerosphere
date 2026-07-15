@@ -543,6 +543,146 @@ Next milestone: Phase 8 – Sprint 3 (Ticket Module).
 -   Security rules.
 ---------------------------------------
 
+## Phase 8 -- Sprint 4 -- Check-in Module
+
+### Sprint Status
+
+-   Status: Completed
+-   Architecture: Frozen
+-   API Testing: 15/15 Passed
+-   Unit Testing: 12/12 Passed
+
+------------------------------------------------------------------------
+
+## New Module
+
+-   Introduced `checkin` module.
+
+### Packages Added
+
+-   controller
+-   dto/request
+-   dto/response
+-   entity
+-   mapper
+-   repository
+-   service
+
+### Classes Added
+
+-   CheckIn
+-   CheckInStatus
+-   CheckInRequest
+-   CheckInResponse
+-   CheckInMapper
+-   CheckInRepository
+-   CheckInService
+-   CheckInServiceImpl
+-   CheckInController
+-   CheckInServiceImplTest
+
+------------------------------------------------------------------------
+
+## Database
+
+### Table Added
+
+-   `check_ins`
+
+### Relationship Added
+
+    Ticket (1)
+          │
+          ▼
+    CheckIn (1)
+
+### Entity Fields
+
+-   id
+-   ticket
+-   passengerName
+-   flightNumber
+-   checkInStatus
+-   checkedInAt
+
+------------------------------------------------------------------------
+
+## Business Rules
+
+-   Ticket required before check-in.
+-   One Check-in per Ticket.
+-   Passenger name copied from Ticket.
+-   Flight number copied from Ticket.
+-   `CHECKED_IN` assigned during creation.
+-   `checkedInAt` is immutable.
+-   Ticket is the source of truth.
+
+------------------------------------------------------------------------
+
+## Repository Enhancements
+
+-   existsByTicketId()
+-   findByTicketId()
+-   findAllWithRelationships()
+-   findByIdWithRelationships()
+-   JOIN FETCH used to prevent LazyInitializationException.
+
+------------------------------------------------------------------------
+
+## Controller
+
+Endpoints: - POST /api/v1/checkins - GET /api/v1/checkins - GET
+/api/v1/checkins/{id} - PUT /api/v1/checkins/{id} - DELETE
+/api/v1/checkins/{id}
+
+Security: - ADMIN: CRUD - STAFF: Create / Read / Update - CUSTOMER: Read
+
+------------------------------------------------------------------------
+
+## Integration Testing (15/15)
+
+1.  Create Check-in
+2.  Invalid Ticket ID
+3.  Duplicate Check-in
+4.  Get All
+5.  Get By ID
+6.  Invalid ID
+7.  Update
+8.  Invalid Ticket Update
+9.  Duplicate Ticket Update
+10. Delete (ADMIN)
+11. Delete (STAFF -\> 403)
+12. Invalid Delete
+13. Validation
+14. Response Mapping
+15. Security
+
+------------------------------------------------------------------------
+
+## Unit Testing (12/12)
+
+-   createCheckIn(): 3
+-   getAllCheckIns(): 1
+-   getCheckInById(): 2
+-   updateCheckIn(): 4
+-   deleteCheckIn(): 2
+
+------------------------------------------------------------------------
+
+## Freeze Summary
+
+-   Design frozen
+-   Relationships frozen
+-   DTO contracts frozen
+-   Repository contracts frozen
+-   Service contracts frozen
+-   Controller contracts frozen
+-   Business rules frozen
+-   Security model frozen
+-   Testing completed
+
+------------------------------------------------
+
 
 Maintained By
 
