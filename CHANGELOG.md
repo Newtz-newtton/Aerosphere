@@ -683,6 +683,68 @@ Security: - ADMIN: CRUD - STAFF: Create / Read / Update - CUSTOMER: Read
 
 ------------------------------------------------
 
+# Phase 8 -- Sprint 5 (Notification Module)
+
+## Summary
+
+Implemented the complete Notification module and integrated it into the
+AeroSphere modular monolith.
+
+## Added
+
+-   Notification module package
+-   Notification entity
+-   NotificationStatus enum
+-   NotificationType enum
+-   ProviderType enum
+-   NotificationRepository
+-   NotificationRequest
+-   NotificationResponse
+-   NotificationMapper
+-   NotificationValidationUtil
+-   NotificationProvider interface
+-   LoggingNotificationProvider
+-   EmailNotificationProvider (stub)
+-   SmsNotificationProvider (stub)
+-   NotificationProviderFactory
+-   NotificationService
+-   NotificationServiceImpl
+-   NotificationController
+
+## Architectural Decisions
+
+-   Strategy Pattern for providers
+-   Factory Pattern for provider resolution
+-   Immutable notification history
+-   No Update/Delete APIs
+-   Generic recipient with provider-specific validation
+-   Future Kafka compatibility retained
+-   Future Redis compatibility retained
+
+## Validation
+
+-   Validation extracted into NotificationValidationUtil
+-   Email validation
+-   E.164 phone validation
+
+## Testing
+
+Integration Tests: 15/15 PASSED Unit Tests: -
+NotificationServiceImplTest: 10/10 PASSED -
+NotificationValidationUtilTest: 6/6 PASSED
+
+## Issues Resolved
+
+-   sent_at nullable persistence issue
+-   compile/import issues
+-   validation architecture refactor
+--------------------------------------------------------
+
+
+
+
+
+
 
 Maintained By
 
