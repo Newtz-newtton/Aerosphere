@@ -5,6 +5,10 @@ import com.aerosphere.booking.repository.BookingRepository;
 import com.aerosphere.common.util.ReferenceGenerator;
 import com.aerosphere.exception.custom.BusinessException;
 import com.aerosphere.exception.custom.ResourceNotFoundException;
+import com.aerosphere.kafka.constant.KafkaConstants;
+import com.aerosphere.kafka.event.payment.PaymentCompletedEvent;
+import com.aerosphere.kafka.mapper.PaymentEventMapper;
+import com.aerosphere.kafka.publisher.KafkaEventPublisher;
 import com.aerosphere.payment.dto.request.PaymentRequest;
 import com.aerosphere.payment.dto.response.PaymentResponse;
 import com.aerosphere.payment.entity.Payment;
@@ -27,6 +31,7 @@ import java.util.List;
  * - Update payments.
  * - Delete payments.
  * - Validate payment business rules.
+ * - Publish payment completion events.
  *
  * Module:
  * Payment
@@ -40,10 +45,14 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
     private final ReferenceGenerator referenceGenerator;
 
+    private final PaymentEventMapper paymentEventMapper;
+    private final KafkaEventPublisher kafkaEventPublisher;
+
     @Override
     public PaymentResponse createPayment(PaymentRequest request) {
 
-        Booking booking = bookingRepository.findById(request.getBookingId())
+        Booking booking = bookingRepository
+                .findByIdWithUserAndFlight(request.getBookingId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Booking not found."));
 
@@ -60,6 +69,14 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
 
         Payment savedPayment = paymentRepository.save(payment);
+
+        PaymentCompletedEvent event =
+                paymentEventMapper.toPaymentCompletedEvent(savedPayment);
+
+        kafkaEventPublisher.publish(
+                KafkaConstants.PAYMENT_EVENTS_TOPIC,
+                event
+        );
 
         return paymentMapper.toResponse(savedPayment);
     }

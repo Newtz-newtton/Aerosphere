@@ -739,6 +739,106 @@ NotificationValidationUtilTest: 6/6 PASSED
 -   compile/import issues
 -   validation architecture refactor
 --------------------------------------------------------
+# CHANGELOG - Phase 08 Kafka Event-Driven Integration
+
+------------------------------------------------------------------------
+
+# v0.9.0 - Kafka Event-Driven Integration Complete
+
+## Added
+
+-   Implemented Apache Kafka integration.
+-   Added KafkaProducerConfig.
+-   Added KafkaConsumerConfig.
+-   Added KafkaTopicConfig.
+-   Added KafkaConstants.
+-   Added BaseEvent for common event metadata.
+-   Added PaymentCompletedEvent.
+-   Added EventMetadataUtil.
+-   Added KafkaEventPublisher.
+-   Added PaymentEventMapper.
+-   Added PaymentCompletedConsumer.
+-   Integrated PaymentService with Kafka producer.
+-   Integrated NotificationService through Kafka consumer.
+-   Added `payment-events` topic.
+-   Added event metadata population.
+-   Added asynchronous Payment → Notification workflow.
+
+## Improved
+
+-   Decoupled Payment and Notification modules using event-driven
+    communication.
+-   Centralized Kafka publishing through KafkaEventPublisher.
+-   Centralized event metadata generation through EventMetadataUtil.
+-   Standardized event model using BaseEvent.
+-   Simplified Kafka package by removing unused event flows.
+-   Simplified topic configuration to a single business topic.
+-   Enhanced `PaymentCompletedEvent` payload with:
+    -   Booking Reference
+    -   Payment Reference
+    -   Recipient
+-   Optimized Booking retrieval using eager relationship fetching for
+    Kafka event mapping.
+-   Reused the existing NotificationService without modifying business
+    logic.
+
+## Fixed
+
+-   Resolved `LazyInitializationException` while accessing
+    `Booking.user.email` during event mapping.
+-   Updated PaymentService to use eager relationship fetching for Kafka
+    event creation.
+-   Corrected Kafka consumer package configuration.
+-   Corrected trusted package configuration for JSON deserialization.
+
+## Verified
+
+-   Spring Boot application startup.
+-   Kafka broker connectivity.
+-   Kafka topic creation.
+-   Kafka producer event publishing.
+-   Kafka consumer event consumption.
+-   PaymentCompletedEvent serialization and deserialization.
+-   End-to-end Payment → Kafka → Notification workflow.
+-   Notification persistence.
+-   Logging notification provider execution.
+-   PostgreSQL persistence verification.
+-   Kafka UI topic verification.
+-   Consumer group registration verification.
+
+## Architecture
+
+``` text
+Payment Service
+      │
+      ▼
+PaymentCompletedEvent
+      │
+      ▼
+Kafka Producer
+      │
+      ▼
+payment-events Topic
+      │
+      ▼
+PaymentCompletedConsumer
+      │
+      ▼
+NotificationService
+      │
+      ▼
+Notification Provider
+```
+
+## Outcome
+
+The Kafka integration phase was completed successfully. The
+implementation provides a working event-driven communication model
+between the Payment and Notification modules, has been validated through
+end-to-end testing, and is now considered **frozen** for the current
+project scope.
+
+------------------------------------------------------------------------
 
 
 
