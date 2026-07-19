@@ -4,7 +4,7 @@ package com.aerosphere.notification.entity;
  * Purpose:
  * Represents the business event that triggered
  * a notification.
- *
+ * <p>
  * Module:
  * Notification
  */
